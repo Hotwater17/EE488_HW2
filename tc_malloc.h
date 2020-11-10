@@ -9,7 +9,7 @@
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~(ALIGNMENT-1))
 #define SIZE_T_SIZE (ALIGN(sizeof(size_t)))
 
-#define HEAP_SIZE 1000
+#define HEAP_SIZE 100000
 #define THREAD_SIZE 1024
 
 void *heapStart;
@@ -26,6 +26,12 @@ typedef struct header_t{
  struct header_t *prev;
 }header;
 
+typedef struct free_block_head
+{
+ size_t size;
+ struct free_block_head *next;
+ struct free_block_head *prev;
+}free_block_head_t;
 
 void *tc_central_init();
 void *tc_thread_init();

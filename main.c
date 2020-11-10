@@ -6,11 +6,14 @@
 int main()
 {
 
- void *heapStart = tc_central_init();
+ //void *heapStart = tc_central_init();
  void *thread1 = tc_thread_init();
  void *ptr1 = tc_malloc(10);
- void *ptr2 = tc_malloc(20);
- void *ptr3 = tc_malloc(30);
+ tc_free(ptr1);
+ void *ptr2 = tc_malloc(10);
+ ptr1 = tc_malloc(10);
+ //void *ptr2 = tc_malloc(20);
+ /*void *ptr3 = tc_malloc(30);
  void *ptr4 = tc_malloc(1000);
  void *fitPtr;
  header *ptrstruct = ptr1;
@@ -23,6 +26,7 @@ tc_free(ptr2);
  tc_free(ptr4);
  fitPtr = find_fit(ALIGN(25)+SIZE_T_SIZE);
  printf("%p %ld %p \n", ptrstruct, ptrstruct->size, fitPtr);
- return 0;
+*/ 
+return 0;
 }
 
