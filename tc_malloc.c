@@ -19,7 +19,7 @@ void *tc_central_init()
 {
  /*Initialize central heap and return a pointer to first address of free list */
  //Look at mmap();
- /*node *head = mmap(NULL, ALIGN(HEAP_SIZE), PROT_READ|PROT_WRITE, MAP_ANON|MAP_PRIVATE,
+ node *head = mmap(NULL, ALIGN(HEAP_SIZE), PROT_READ|PROT_WRITE, MAP_ANON|MAP_PRIVATE,
 			-1,0);
 
  head->size = HEAP_SIZE-sizeof(node);
@@ -29,7 +29,7 @@ void *tc_central_init()
  heapEnd = heapStart + HEAP_SIZE;
  printf("Start: %p End: %p \n", heapStart, heapEnd);
  return head;
-*/
+/*
  free_block_head_t *bp = mmap(NULL, ALIGN(HEAP_SIZE),
 			PROT_READ|PROT_WRITE, MAP_ANON|MAP_PRIVATE, -1,0);
  heapStart = bp;
@@ -38,7 +38,7 @@ void *tc_central_init()
  bp->next = bp;
  bp->prev = bp;
  printf("start %p end %p \n", heapStart, heapEnd);
-
+*/
 }
 
 void *tc_thread_init()
@@ -58,13 +58,13 @@ void *tc_malloc(size_t size)
  /*Allocate an object of size and return a pointer to it*/
  size_t alignedSize = ALIGN(size + SIZE_T_SIZE);
  //header * head = mmap(NULL, alignedSize, PROT_READ|PROT_WRITE,
- //                                MAP_ANON|MAP_PRIVATE, -1, 0);
- /*header *head = find_fit(alignedSize);
+  //                               MAP_ANON|MAP_PRIVATE, -1, 0);
+ header *head = find_fit(alignedSize);
  if(head) head->size = alignedSize | 1;
  else printf("Not enough heap space \n");
  head->next = (void *)head+(head->size & ~1L);
- return head;*/
- static int isHeapInit = 0;
+ return head;
+ /*static int isHeapInit = 0;
  if(!isHeapInit)
  {
   isHeapInit = 1;
@@ -75,18 +75,18 @@ void *tc_malloc(size_t size)
   else
   {
    printf("Not enough heap space \n");
-   
   }
   bp->next = (void *)bp + bp->size;
   printf("head %p size %ld head+size %p next %p prev %p \n", bp, bp->size,
 	(void *)bp + bp->size, bp->next, bp->prev);
   return bp;
+*/
 }
 
 void tc_free(void *ptr)
 {
  /*deallocate *ptr object*/
-  /*header *head = ptr;
+  header *head = ptr;
   head->size = head->size & ~1L;
   //Coalesce
   printf("next %p \n", head->next);
@@ -95,7 +95,7 @@ void tc_free(void *ptr)
   {
    head->size += head->next->size;
   }
-*/
+/*
   free_block_head_t *bp = ptr;
   bp->size = bp->size & ~1L;
 
@@ -105,11 +105,12 @@ void tc_free(void *ptr)
  {
   bp->size += bp->next->size;
  }
+*/
 }
 
 void *find_fit(size_t fitSize)
 {
-/*
+
  header *head = heapStart;
  while((void *)head < (void *)heapEnd)
  {
@@ -126,7 +127,7 @@ head =  (void *)head + (head->size & ~1L);
  printf("Space not found \n");
  return NULL;
 
-*/
+/*
 
  free_block_head_t *bp = heapStart;
  while((void *)bp < (void *)heapEnd)
@@ -143,4 +144,5 @@ head =  (void *)head + (head->size & ~1L);
  }
  printf("fit not found \n");
  return NULL;
+*/
 }
